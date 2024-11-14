@@ -75,7 +75,9 @@ const App = () => {
           className="image-modal"
           overlayClassName="image-modal-overlay"
         >
-          <img src={`/images/${selectedImage}.jpg`} alt={selectedImage} />
+          <a href={cards.find((doc) => doc.type === selectedImage).url} target="_blank" rel="noopener noreferrer">
+            <img src={`/images/${selectedImage}.jpg`} alt={selectedImage} />
+          </a>
         </Modal>
       )}
     </DndProvider>
