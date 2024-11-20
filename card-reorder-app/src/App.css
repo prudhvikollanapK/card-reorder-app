@@ -213,10 +213,14 @@ body {
     gap: 20px;
   }
 
-  .heading {
-    font-size: 2rem;
+  .heading, .main-container{
+    font-size: 2rem !important;
+    margin-bottom: 20px !important;
   }
 
+  #root {
+    margin: auto;
+  }
   .card {
     padding: 15px;
     height: 300px;
@@ -232,9 +236,14 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .heading {
+  #root {
+    margin: auto;
+  }
+
+  .heading, .main-container {
     font-size: 1.8rem;
     margin-bottom: 20px;
+    text-align: center;
   }
 
   .image-modal {
@@ -249,3 +258,5 @@ body {
     height: 280px;
   }
 }
+
+

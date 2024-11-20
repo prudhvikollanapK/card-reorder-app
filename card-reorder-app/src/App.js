@@ -71,41 +71,36 @@ const App = () => {
         </div>
         {selectedImage && (
           <Modal
-  isOpen={!!selectedImage}
-  onRequestClose={closeModal}
-  className="image-modal"
-  overlayClassName="image-modal-overlay"
->
-  {selectedImage && (
-    <a
-      href={cards.find((doc) => doc.type === selectedImage)?.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      data-title={cards.find((doc) => doc.type === selectedImage)?.title} // Tooltip content
-      style={{ textDecoration: 'none' }}
-    >
-      <img
-        src={`/images/${selectedImage}.jpg`}
-        alt={selectedImage}
-        style={{
-          display: 'block',
-          maxWidth: '100%',
-          maxHeight: '80%',
-          marginBottom: '15px',
-          borderRadius: '10px',
-        }}
-      />
-      <span style={{ color: '#fff', fontWeight: '600' }}>
-       <u>Visit {cards.find((doc) => doc.type === selectedImage)?.title}</u> 
-      </span>
-    </a>
-  )}
-</Modal>
-
-      
-        
-        
-          
+          isOpen={!!selectedImage}
+          onRequestClose={closeModal}
+          className="image-modal"
+          overlayClassName="image-modal-overlay"
+        >
+          {selectedImage && (
+            <a
+              href={cards.find((doc) => doc.type === selectedImage)?.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-title={cards.find((doc) => doc.type === selectedImage)?.title} // Tooltip content
+              style={{ textDecoration: 'none' }}
+            >
+              <img
+                src={`/images/${selectedImage}.jpg`}
+                alt={selectedImage}
+                style={{
+                  display: 'block',
+                  maxWidth: '100%',
+                  maxHeight: '80%',
+                  marginBottom: '15px',
+                  borderRadius: '10px',
+                }}
+              />
+              <span style={{ color: '#fff', fontWeight: '600' }}>
+              <u>Visit {cards.find((doc) => doc.type === selectedImage)?.title}</u> 
+              </span>
+            </a>
+          )}
+        </Modal>
         )}
       </div>
     </DndProvider>
