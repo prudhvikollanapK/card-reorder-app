@@ -1,8 +1,6 @@
 [
-    { "type": "housiee", "title": "Housiee", "position": 0, "url": "https://housiee.vercel.app/" },
-    { "type": "truth-r-dare", "title": "Truth r Dare", "position": 1, "url": "https://truth-r-dare.vercel.app/" },
-    { "type": " ", "title": " ", "position": 2, "url": " " },
-    { "type": " ", "title": " ", "position": 3, "url": " " },
-    { "type": " ", "title": " ", "position": 4, "url": " "}
+    { "type": "portfolio", "title": "Portfolio", "position": 0, "url": "https://prudhvi-kollana-portfolio.vercel.app/" },
+    { "type": "housiee", "title": "Housiee", "position": 1, "url": "https://housiee.vercel.app/" },
+    { "type": "truth-r-dare", "title": "Truth r Dare", "position": 2, "url": "https://truth-r-dare.vercel.app/" }
   ]
   

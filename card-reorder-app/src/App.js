@@ -60,28 +60,57 @@ const App = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="cards-container">
-        {cards.map((doc, index) => (
-          <div key={doc.type} onClick={() => openModal(doc.type)}>
-            <Card document={doc} index={index} moveCard={moveCard} />
-          </div>
-        ))}
-      </div>
+      <div className="main-container">
+        <h1 className="heading">Portfolio Hub</h1>
+        <div className="cards-container">
+          {cards.map((doc, index) => (
+            <div key={doc.type} onClick={() => openModal(doc.type)}>
+              <Card document={doc} index={index} moveCard={moveCard} />
+            </div>
+          ))}
+        </div>
+        {selectedImage && (
+          <Modal
+  isOpen={!!selectedImage}
+  onRequestClose={closeModal}
+  className="image-modal"
+  overlayClassName="image-modal-overlay"
+>
+  {selectedImage && (
+    <a
+      href={cards.find((doc) => doc.type === selectedImage)?.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-title={cards.find((doc) => doc.type === selectedImage)?.title} // Tooltip content
+      style={{ textDecoration: 'none' }}
+    >
+      <img
+        src={`/images/${selectedImage}.jpg`}
+        alt={selectedImage}
+        style={{
+          display: 'block',
+          maxWidth: '100%',
+          maxHeight: '80%',
+          marginBottom: '15px',
+          borderRadius: '10px',
+        }}
+      />
+      <span style={{ color: '#fff', fontWeight: '600' }}>
+       <u>Visit {cards.find((doc) => doc.type === selectedImage)?.title}</u> 
+      </span>
+    </a>
+  )}
+</Modal>
+
       
-      {selectedImage && (
-        <Modal
-          isOpen={!!selectedImage}
-          onRequestClose={closeModal}
-          className="image-modal"
-          overlayClassName="image-modal-overlay"
-        >
-          <a href={cards.find((doc) => doc.type === selectedImage).url} target="_blank" rel="noopener noreferrer">
-            <img src={`/images/${selectedImage}.jpg`} alt={selectedImage} />
-          </a>
-        </Modal>
-      )}
+        
+        
+          
+        )}
+      </div>
     </DndProvider>
   );
+  
 };
 
 export default App;
