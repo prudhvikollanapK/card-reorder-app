@@ -1,6 +1,6 @@
 [
     { "type": "portfolio", "title": "Portfolio", "position": 0, "url": "https://prudhvi-kollana-portfolio.vercel.app/" },
     { "type": "housiee", "title": "Housiee", "position": 1, "url": "https://housiee.vercel.app/" },
-    { "type": "truth-r-dare", "title": "Truth r Dare", "position": 2, "url": "https://truth-r-dare.vercel.app/" }
+    { "type": "truth-r-dare", "title": "Truth/Dare", "position": 2, "url": "https://truth-r-dare.vercel.app/" }
   ]
   
