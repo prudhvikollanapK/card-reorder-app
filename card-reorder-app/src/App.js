@@ -14,7 +14,7 @@ const Card = ({ document, index, moveCard }) => {
     type: 'CARD',
     item: { index },
   });
-  
+
   const [, drop] = useDrop({
     accept: 'CARD',
     hover: (item) => {
@@ -44,6 +44,41 @@ const Card = ({ document, index, moveCard }) => {
   );
 };
 
+const GoogleAd = () => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src =
+      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1576494162981093';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    document.head.appendChild(script);
+
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <div className="ad-container">
+      {/* Google AdSense Ad */}
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client="ca-pub-1576494162981093"
+        data-ad-slot="6340039454"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+  );
+};
+
 const App = () => {
   const [cards, setCards] = useState(documents);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -55,18 +90,6 @@ const App = () => {
     setCards(updatedCards);
   };
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1576494162981093";
-    script.async = true;
-    script.crossOrigin = "anonymous";
-    document.head.appendChild(script);
-    
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
   const openModal = (image) => setSelectedImage(image);
   const closeModal = () => setSelectedImage(null);
 
@@ -74,6 +97,10 @@ const App = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="main-container">
         <h1 className="heading">Portfolio Hub</h1>
+
+        {/* Google AdSense Ad */}
+        <GoogleAd />
+
         <div className="cards-container">
           {cards.map((doc, index) => (
             <div key={doc.type} onClick={() => openModal(doc.type)}>
@@ -81,43 +108,43 @@ const App = () => {
             </div>
           ))}
         </div>
+
         {selectedImage && (
           <Modal
-          isOpen={!!selectedImage}
-          onRequestClose={closeModal}
-          className="image-modal"
-          overlayClassName="image-modal-overlay"
-        >
-          {selectedImage && (
-            <a
-              href={cards.find((doc) => doc.type === selectedImage)?.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-title={cards.find((doc) => doc.type === selectedImage)?.title} // Tooltip content
-              style={{ textDecoration: 'none' }}
-            >
-              <img
-                src={`/images/${selectedImage}.jpg`}
-                alt={selectedImage}
-                style={{
-                  display: 'block',
-                  maxWidth: '100%',
-                  maxHeight: '80%',
-                  marginBottom: '15px',
-                  borderRadius: '10px',
-                }}
-              />
-              <span style={{ color: '#fff', fontWeight: '600' }}>
-              <u>Visit {cards.find((doc) => doc.type === selectedImage)?.title}</u> 
-              </span>
-            </a>
-          )}
-        </Modal>
+            isOpen={!!selectedImage}
+            onRequestClose={closeModal}
+            className="image-modal"
+            overlayClassName="image-modal-overlay"
+          >
+            {selectedImage && (
+              <a
+                href={cards.find((doc) => doc.type === selectedImage)?.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-title={cards.find((doc) => doc.type === selectedImage)?.title}
+                style={{ textDecoration: 'none' }}
+              >
+                <img
+                  src={`/images/${selectedImage}.jpg`}
+                  alt={selectedImage}
+                  style={{
+                    display: 'block',
+                    maxWidth: '100%',
+                    maxHeight: '80%',
+                    marginBottom: '15px',
+                    borderRadius: '10px',
+                  }}
+                />
+                <span style={{ color: '#fff', fontWeight: '600' }}>
+                  <u>Visit {cards.find((doc) => doc.type === selectedImage)?.title}</u>
+                </span>
+              </a>
+            )}
+          </Modal>
         )}
       </div>
     </DndProvider>
   );
-  
 };
 
 export default App;
