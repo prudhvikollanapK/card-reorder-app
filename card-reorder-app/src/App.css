@@ -173,7 +173,7 @@ body::-webkit-scrollbar {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 90%;
+  max-width: 66%;
   max-height: 90%;
   background-color: var(--card-background);
   border-radius: 12px;
