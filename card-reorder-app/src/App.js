@@ -1,22 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Oval } from 'react-loader-spinner';
-import Modal from 'react-modal';
-import documents from './data.json';
-import './App.css';
+// App.jsx
+import React, { useState, useEffect } from "react";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Oval } from "react-loader-spinner";
+import Modal from "react-modal";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FiExternalLink,
+  FiMove,
+  FiGrid,
+  FiCpu,
+  FiBarChart2,
+  FiCode,
+  FiUser,
+} from "react-icons/fi";
+import {
+  GiGamepad,
+  GiBrain,
+  GiPuzzle,
+} from "react-icons/gi";
+import signature from "./assets/images/signature.png";
 
-const Card = ({ document, index, moveCard }) => {
+import documents from "./data.json";
+import "./App.css";
+
+Modal.setAppElement("#root");
+
+const typeMeta = {
+  portfolio: {
+    label: "Personal Portfolio",
+    description: "Central hub showcasing my work, timeline & achievements.",
+    icon: <FiGrid />,
+    tags: ["About Me", "Showcase", "Resume"],
+  },
+  "emi-master": {
+    label: "Finance Tool",
+    description: "Advanced EMI calculator with real-time visual insights.",
+    icon: <FiBarChart2 />,
+    tags: ["Planning", "Loans", "Calculator"],
+  },
+  housiee: {
+    label: "Game",
+    description: "Interactive online housie game built for fun sessions.",
+    icon: <GiGamepad />,
+    tags: ["Fun", "Party", "Multiplayer"],
+  },
+  tally: {
+    label: "Puzzle",
+    description: "A mini interactive maths game built for casual brain play.",
+    icon: <FiCpu />,
+    tags: ["Focus", "Time-pass", "Prototype"],
+  },
+  "truth-r-dare": {
+    label: "Party Game",
+    description: "Truth or dare prompts for quick ice-breakers & parties.",
+    icon: <GiPuzzle />,
+    tags: ["Engage", "Social", "Entertainment"],
+  },
+};
+
+const DraggableCard = ({ document, index, moveCard, onOpenPreview }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const [, ref] = useDrag({
-    type: 'CARD',
+  const meta = typeMeta[document.type] || {
+    label: "Web App",
+    description: document.title,
+    icon: <FiGrid />,
+    tags: ["React", "Web App"],
+  };
+
+  // DnD
+  const [, dragRef] = useDrag({
+    type: "CARD",
     item: { index },
   });
 
-  const [, drop] = useDrop({
-    accept: 'CARD',
+  const [, dropRef] = useDrop({
+    accept: "CARD",
     hover: (item) => {
       if (item.index !== index) {
         moveCard(item.index, index);
@@ -25,125 +86,236 @@ const Card = ({ document, index, moveCard }) => {
     },
   });
 
-  return (
-    <div className="card" ref={(node) => ref(drop(node))}>
-      {isLoading && !imageLoaded ? (
-        <Oval color="#00BFFF" height={50} width={50} />
-      ) : null}
-      <img
-        src={`/images/${document.type}.jpg`}
-        alt={document.title}
-        onLoad={() => {
-          setImageLoaded(true);
-          setIsLoading(false);
-        }}
-        style={{ display: isLoading ? 'none' : 'block' }}
-      />
-      <h4>{document.title}</h4>
-    </div>
-  );
-};
-
-const GoogleAd = () => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src =
-      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1576494162981093';
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    document.head.appendChild(script);
-
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error('AdSense error:', e);
-    }
-
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
-  return (
-    <div className="ad-container">
-      {/* Google AdSense Ad */}
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client="ca-pub-1576494162981093"
-        data-ad-slot="6340039454"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>
-    </div>
-  );
-};
-
-const App = () => {
-  const [cards, setCards] = useState(documents);
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const moveCard = (fromIndex, toIndex) => {
-    const updatedCards = [...cards];
-    const [movedCard] = updatedCards.splice(fromIndex, 1);
-    updatedCards.splice(toIndex, 0, movedCard);
-    setCards(updatedCards);
+  const handleOpenLive = (e) => {
+    e.stopPropagation();
+    window.open(document.url, "_blank", "noopener");
   };
 
-  const openModal = (image) => setSelectedImage(image);
-  const closeModal = () => setSelectedImage(null);
-
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="main-container">
-        <h1 className="heading">Portfolio Hub</h1>
+    <div
+      ref={(node) => dragRef(dropRef(node))}
+      className="card"
+      onClick={onOpenPreview}
+    >
+      <div className="card-badge">
+        <span className="card-badge-icon">{meta.icon}</span>
+        <span className="card-badge-text">{meta.label}</span>
+      </div>
 
-        {/* Google AdSense Ad */}
-        <GoogleAd />
+      <div className="card-image-wrapper">
+        {isLoading && !imageLoaded && (
+          <div className="card-loader">
+            <Oval height={40} width={40} />
+          </div>
+        )}
+        <img
+          src={`/images/${document.type}.jpg`}
+          alt={document.title}
+          onLoad={() => {
+            setImageLoaded(true);
+            setIsLoading(false);
+          }}
+          style={{ opacity: isLoading ? 0 : 1 }}
+        />
+      </div>
 
-        <div className="cards-container">
-          {cards.map((doc, index) => (
-            <div key={doc.type} onClick={() => openModal(doc.type)}>
-              <Card document={doc} index={index} moveCard={moveCard} />
-            </div>
+      <div className="card-content">
+        <h4 className="card-title">{document.title}</h4>
+        <p className="card-description">{meta.description}</p>
+
+        <div className="card-tags">
+          {meta.tags?.map((tag) => (
+            <span key={tag} className="card-tag-pill">
+              <FiCode className="card-tag-icon" />
+              {tag}
+            </span>
           ))}
         </div>
 
-        {selectedImage && (
-          <Modal
-            isOpen={!!selectedImage}
-            onRequestClose={closeModal}
-            className="image-modal"
-            overlayClassName="image-modal-overlay"
-          >
-            {selectedImage && (
-              <a
-                href={cards.find((doc) => doc.type === selectedImage)?.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-title={cards.find((doc) => doc.type === selectedImage)?.title}
-                style={{ textDecoration: 'none' }}
-              >
-                <img
-                  src={`/images/${selectedImage}.jpg`}
-                  alt={selectedImage}
-                  style={{
-                    display: 'block',
-                    maxWidth: '100%',
-                    maxHeight: '80%',
-                    marginBottom: '15px',
-                    borderRadius: '10px',
-                  }}
-                />
-                <span style={{ color: '#fff', fontWeight: '600' }}>
-                  <u>Visit {cards.find((doc) => doc.type === selectedImage)?.title}</u>
-                </span>
-              </a>
-            )}
-          </Modal>
-        )}
+        <div className="card-footer">
+          {/* SHORT, SWEET BTN */}
+          <button className="card-primary-btn" onClick={handleOpenLive}>
+            <FiExternalLink className="card-primary-icon" />
+            <span>Visit Live</span>
+          </button>
+
+          <div className="card-footer-right">
+            <span className="card-footer-text">Drag & Reorder</span>
+            <FiMove className="card-drag-icon" />
+          </div>
+        </div>
       </div>
+    </div>
+  );
+};
+
+
+const App = () => {
+  // sort once using position from data.json
+  const [cards, setCards] = useState(() =>
+    [...documents].sort((a, b) => a.position - b.position)
+  );
+  const [selectedDoc, setSelectedDoc] = useState(null);
+
+  const moveCard = (fromIndex, toIndex) => {
+    const updated = [...cards];
+    const [moved] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, moved);
+    setCards(updated);
+  };
+
+  const handleOpenPreview = (doc) => setSelectedDoc(doc);
+  const handleClosePreview = () => setSelectedDoc(null);
+
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className="page-root">
+        <div className="background-orbit" />
+        <div className="background-orbit second" />
+
+        <header className="page-header">
+          <div className="page-chip">
+            <span className="page-chip-dot" />
+            <span>PK • Live Project Collection</span>
+          </div>
+
+          <h1 className="heading">Portfolio Hub</h1>
+
+        <p className="subheading">
+  All the products, tools and games I've built in one place.
+</p>
+
+<p className="subheading">
+  Explore the cards to understand my work, style and tech skills.
+</p>
+
+
+          <div className="page-meta-row">
+            <div className="page-meta-item">
+              <span className="page-meta-label">Projects</span>
+              <span className="page-meta-value">{cards.length}</span>
+            </div>
+<div className="page-meta-item">
+  <span className="page-meta-label">Built by</span>
+
+  <a
+    href="https://prudhvi-kollana-portfolio.vercel.app"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="page-meta-value page-meta-link"
+    style={{ display: "inline-flex", alignItems: "center" }}
+  >
+    <FiUser style={{ marginRight: 4 }} /> PK
+  </a>
+</div>
+
+          </div>
+        </header>
+
+        <main className="main-container">
+          <motion.div
+            className="cards-container"
+            layout
+            transition={{ layout: { duration: 0.25 } }}
+          >
+            {cards.map((doc, index) => (
+              <DraggableCard
+                key={doc.type}
+                document={doc}
+                index={index}
+                moveCard={moveCard}
+                onOpenPreview={() => handleOpenPreview(doc)}
+              />
+            ))}
+          </motion.div>
+        </main>
+
+        <AnimatePresence>
+          {selectedDoc && (
+            <Modal
+              isOpen={!!selectedDoc}
+              onRequestClose={handleClosePreview}
+              className="image-modal"
+              overlayClassName="image-modal-overlay"
+              closeTimeoutMS={200}
+            >
+              <motion.div
+                className="modal-inner"
+                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="modal-header">
+                  <div>
+                    <p className="modal-kicker">Project preview</p>
+                    <h2 className="modal-title">{selectedDoc.title}</h2>
+                    <p className="modal-subkicker">
+                      Part of my live project collection, built & maintained by me.
+                    </p>
+                  </div>
+                  <button
+                    className="modal-close-btn"
+                    onClick={handleClosePreview}
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <div className="modal-image-wrapper">
+                  <img
+                    src={`/images/${selectedDoc.type}.jpg`}
+                    alt={selectedDoc.title}
+                  />
+                </div>
+
+                <div className="modal-footer">
+                  <p className="modal-subtext">
+                    Open this app in a new tab to interact with the full
+                    experience.
+                  </p>
+                  <a
+                    href={selectedDoc.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="modal-cta"
+                  >
+                    <span>Visit live project</span>
+                    <FiExternalLink className="modal-cta-icon" />
+                  </a>
+                </div>
+              </motion.div>
+            </Modal>
+          )}
+        </AnimatePresence>
+      </div>
+              <p class="pk-credit">
+          Made with
+          <button
+            class="pk-heart"
+            aria-label="Love"
+            title="Made with love by Prudhvi Kollana"
+          >
+            ❤
+          </button>
+          by
+          <a
+            href="https://prudhvi-kollana-portfolio.vercel.app/"
+            target="_blank"
+            rel="noopener"
+            class="pk-author"
+          >
+            <img
+              src={signature}
+              alt="Prudhvi Kollana"
+              class="pk-author-img"
+            />
+          </a>
+
+          <span class="pk-note"><strong>— Portfolio Hub</strong></span>
+        </p>
     </DndProvider>
+    
   );
 };
 
