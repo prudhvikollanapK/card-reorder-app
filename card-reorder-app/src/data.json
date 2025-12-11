@@ -3,6 +3,7 @@
     { "type": "emi-master", "title": "EMIMaster", "position": 1, "url": "https://emi-master.vercel.app/" },
     { "type": "housiee", "title": "Housiee", "position": 1, "url": "https://housiee.vercel.app/" },
     { "type": "tally", "title": "Tally", "position": 1, "url": "https://tally-play.vercel.app/" },
+    { "type": "mini-score-board", "title": "MiniScoreBoard", "position": 1, "url": "https://my-score-board.vercel.app/" },
     { "type": "truth-r-dare", "title": "Truth/Dare", "position": 2, "url": "https://truth-r-dare.vercel.app/" }
   ]
   

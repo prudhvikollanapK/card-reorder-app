@@ -13,6 +13,7 @@ import {
   FiBarChart2,
   FiCode,
   FiUser,
+  FiList,
 } from "react-icons/fi";
 import {
   GiGamepad,
@@ -51,6 +52,13 @@ const typeMeta = {
     icon: <FiCpu />,
     tags: ["Focus", "Time-pass", "Prototype"],
   },
+  "mini-score-board": {
+    label: "Mini ScoreBoard",
+    description: "A fast, lightweight score tracker for quick games, challenges, and friendly matches.",
+    icon: <FiList  />,
+    tags: ["Real-time", "Scorekeeping", "Game Tool"],
+  },
+
   "truth-r-dare": {
     label: "Party Game",
     description: "Truth or dare prompts for quick ice-breakers & parties.",
@@ -176,7 +184,7 @@ const App = () => {
         <header className="page-header">
           <div className="page-chip">
             <span className="page-chip-dot" />
-            <span>PK • Live Project Collection</span>
+            <span>PK • Live Creation Collection</span>
           </div>
 
           <h1 className="heading">Portfolio Hub</h1>
@@ -192,7 +200,7 @@ const App = () => {
 
           <div className="page-meta-row">
             <div className="page-meta-item">
-              <span className="page-meta-label">Projects</span>
+              <span className="page-meta-label">Creations</span>
               <span className="page-meta-value">{cards.length}</span>
             </div>
 <div className="page-meta-item">
