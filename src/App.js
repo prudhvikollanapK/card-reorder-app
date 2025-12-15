@@ -15,11 +15,7 @@ import {
   FiUser,
   FiList,
 } from "react-icons/fi";
-import {
-  GiGamepad,
-  GiBrain,
-  GiPuzzle,
-} from "react-icons/gi";
+import { GiGamepad, GiBrain, GiPuzzle } from "react-icons/gi";
 import signature from "./assets/images/signature.png";
 
 import documents from "./data.json";
@@ -54,12 +50,13 @@ const typeMeta = {
   },
   "mini-score-board": {
     label: "Mini ScoreBoard",
-    description: "A fast, lightweight score tracker for quick games, challenges, and friendly matches.",
-    icon: <FiList  />,
+    description:
+      "A fast, lightweight score tracker for quick games, challenges, and friendly matches.",
+    icon: <FiList />,
     tags: ["Real-time", "Scorekeeping", "Game Tool"],
   },
 
-  "truth-r-dare": {
+  "spin-out": {
     label: "Party Game",
     description: "Truth or dare prompts for quick ice-breakers & parties.",
     icon: <GiPuzzle />,
@@ -78,7 +75,6 @@ const DraggableCard = ({ document, index, moveCard, onOpenPreview }) => {
     tags: ["React", "Web App"],
   };
 
-  // DnD
   const [, dragRef] = useDrag({
     type: "CARD",
     item: { index },
@@ -157,9 +153,7 @@ const DraggableCard = ({ document, index, moveCard, onOpenPreview }) => {
   );
 };
 
-
 const App = () => {
-  // sort once using position from data.json
   const [cards, setCards] = useState(() =>
     [...documents].sort((a, b) => a.position - b.position)
   );
@@ -189,34 +183,32 @@ const App = () => {
 
           <h1 className="heading">Portfolio Hub</h1>
 
-        <p className="subheading">
-  All the products, tools and games I've built in one place.
-</p>
+          <p className="subheading">
+            All the products, tools and games I've built in one place.
+          </p>
 
-<p className="subheading">
-  Explore the cards to understand my work, style and tech skills.
-</p>
-
+          <p className="subheading">
+            Explore the cards to understand my work, style and tech skills.
+          </p>
 
           <div className="page-meta-row">
             <div className="page-meta-item">
               <span className="page-meta-label">Creations</span>
               <span className="page-meta-value">{cards.length}</span>
             </div>
-<div className="page-meta-item">
-  <span className="page-meta-label">Built by</span>
+            <div className="page-meta-item">
+              <span className="page-meta-label">Built by</span>
 
-  <a
-    href="https://prudhvi-kollana-portfolio.vercel.app"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="page-meta-value page-meta-link"
-    style={{ display: "inline-flex", alignItems: "center" }}
-  >
-    <FiUser style={{ marginRight: 4 }} /> PK
-  </a>
-</div>
-
+              <a
+                href="https://prudhvi-kollana-portfolio.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="page-meta-value page-meta-link"
+                style={{ display: "inline-flex", alignItems: "center" }}
+              >
+                <FiUser style={{ marginRight: 4 }} /> PK
+              </a>
+            </div>
           </div>
         </header>
 
@@ -259,7 +251,8 @@ const App = () => {
                     <p className="modal-kicker">Project preview</p>
                     <h2 className="modal-title">{selectedDoc.title}</h2>
                     <p className="modal-subkicker">
-                      Part of my live project collection, built & maintained by me.
+                      Part of my live project collection, built & maintained by
+                      me.
                     </p>
                   </div>
                   <button
@@ -297,33 +290,29 @@ const App = () => {
           )}
         </AnimatePresence>
       </div>
-              <p class="pk-credit">
-          Made with
-          <button
-            class="pk-heart"
-            aria-label="Love"
-            title="Made with love by Prudhvi Kollana"
-          >
-            ❤
-          </button>
-          by
-          <a
-            href="https://prudhvi-kollana-portfolio.vercel.app/"
-            target="_blank"
-            rel="noopener"
-            class="pk-author"
-          >
-            <img
-              src={signature}
-              alt="Prudhvi Kollana"
-              class="pk-author-img"
-            />
-          </a>
-
-          <span class="pk-note"><strong>— Portfolio Hub</strong></span>
-        </p>
+      <p class="pk-credit">
+        Made with
+        <button
+          class="pk-heart"
+          aria-label="Love"
+          title="Made with love by Prudhvi Kollana"
+        >
+          ❤
+        </button>
+        by
+        <a
+          href="https://prudhvi-kollana-portfolio.vercel.app/"
+          target="_blank"
+          rel="noopener"
+          class="pk-author"
+        >
+          <img src={signature} alt="Prudhvi Kollana" class="pk-author-img" />
+        </a>
+        <span class="pk-note">
+          <strong>— Portfolio Hub</strong>
+        </span>
+      </p>
     </DndProvider>
-    
   );
 };
 
