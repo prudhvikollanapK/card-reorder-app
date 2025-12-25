@@ -16,6 +16,8 @@ import {
   FiUser,
   FiList,
 } from "react-icons/fi";
+import { MdNetworkCheck   } from "react-icons/md";
+
 import { GiGamepad, GiBrain, GiPuzzle } from "react-icons/gi";
 import signature from "./assets/images/signature.png";
 
@@ -63,6 +65,14 @@ const typeMeta = {
     icon: <GiPuzzle />,
     tags: ["Engage", "Social", "Entertainment"],
   },
+
+"network-status-hub": {
+  label: "Live Status",
+  description: "Real-time system health, uptime tracking and outage reports.",
+  icon: <MdNetworkCheck   />,
+  tags: ["Monitoring", "Incidents", "Operations"],
+},
+
 };
 
 const DraggableCard = ({ document, index, moveCard, onOpenPreview }) => {
