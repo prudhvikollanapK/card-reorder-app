@@ -9,6 +9,7 @@ import {
   FiExternalLink,
   FiMove,
   FiGrid,
+  FiBox,
   FiCpu,
   FiBarChart2,
   FiCode,
@@ -193,20 +194,45 @@ const App = () => {
 
           <div className="page-meta-row">
             <div className="page-meta-item">
-              <span className="page-meta-label">Creations</span>
-              <span className="page-meta-value">{cards.length}</span>
+              <div
+                className="creation-block"
+                onClick={() =>
+                  window.scrollBy({
+                    top: 80,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                <span className="creation-label">Creations</span>
+                <FiBox className="creation-icon" />
+                <span className="creation-count">{cards.length}</span>
+              </div>
             </div>
-            <div className="page-meta-item">
-              <span className="page-meta-label">Built by</span>
 
+            <div className="page-meta-item">
               <a
                 href="https://prudhvi-kollana-portfolio.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="page-meta-value page-meta-link"
-                style={{ display: "inline-flex", alignItems: "center" }}
+                className="author-btn"
               >
-                <FiUser style={{ marginRight: 4 }} /> PK
+                <span>Built by</span>
+                <span className="author-icon">
+                  <FiUser />
+                </span>
+                PK
+              </a>
+            </div>
+
+            <div className="page-meta-item">
+              <a
+                href="https://network-status-hub.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="live-status-btn"
+              >
+                <span className="live-dot" />
+                Live Status
               </a>
             </div>
           </div>
